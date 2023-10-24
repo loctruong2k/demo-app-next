@@ -4,7 +4,9 @@ type Props = {}
 
 function Login({}: Props) {
   return (
-    <div>Login</div>
+    <main>
+      <div>Login</div>
+    </main>
   )
 }
 

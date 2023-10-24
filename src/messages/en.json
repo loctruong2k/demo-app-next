@@ -1,5 +1,10 @@
 {
-    "Index": {
+    "loading":"Loading ...",
+    "error":{
+        "message":"An error has occurred. Please try again later.",
+        "again":"Try again!"
+    },
+    "home": {
         "title": "Hello world!"
     }
 }

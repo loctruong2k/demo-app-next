@@ -3,7 +3,8 @@ import { useTranslations } from 'next-intl';
 import styles from './page.module.css';
 
 export default function Home() {
-  const t = useTranslations('Index');
+  const t = useTranslations('home');
+  
   return (
     <main className={styles.main}>
     {t('title')}

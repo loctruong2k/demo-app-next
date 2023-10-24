@@ -24,6 +24,7 @@ export default async function RootLayout({
   try {
     messages = (await import(`../../messages/${locale}.json`)).default;
   } catch (error) {
+    //
   }
 
   return (
@@ -31,7 +32,8 @@ export default async function RootLayout({
       <body className={inter.className}>
         <NextIntlClientProvider locale={locale} messages={messages}>
           {children}
-        </NextIntlClientProvider></body>
+        </NextIntlClientProvider>
+      </body>
     </html>
   )
 }
