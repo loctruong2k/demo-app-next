@@ -1,0 +1,29 @@
+{
+    "loading": "Đang tải ...",
+    "error": {
+        "message": "Đã xảy ra lỗi. Vui lòng thử lại sau.",
+        "again": "Thử lại !"
+    },
+    "home": {
+        "title": "Xin chào!"
+    },
+    "auth": {
+        "name": "Đăng nhập",
+        "username": "Tài khoản",
+        "username_placeholder": "Từ 6 ~ 16 ký tự",
+        "password": "Mật khẩu",
+        "password_placeholder": "Từ 4 ~ 16 ký tự, gồm chữ và số",
+        "register": "Đăng ký",
+        "forgot_password": "Quên mật khẩu",
+        "no_account":"Chưa có tài khoản?",
+        "error":{
+            "require_username": "Vui lòng nhập tài khoản.",
+            "error_username": "Từ 6 ~ 16 ký tự",
+            "require_password": "Vui lòng nhập mật khẩu.",
+            "error_password":"Từ 4 ~ 16 ký tự, gồm chữ và số"
+        },
+        "success":{
+            "login":"Đăng nhập thành công!"
+        }
+    }
+}

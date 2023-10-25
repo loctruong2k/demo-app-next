@@ -1,0 +1,29 @@
+{
+    "loading": "Loading ...",
+    "error": {
+        "message": "An error has occurred. Please try again later.",
+        "again": "Try again!"
+    },
+    "home": {
+        "title": "Hello world!"
+    },
+    "auth": {
+        "name": "Login",
+        "username": "Username",
+        "username_placeholder": "6 to 16 characters",
+        "password": "Password",
+        "password_placeholder": "4 to 16 characters, including letters and numbers",
+        "register": "Register",
+        "forgot_password": "Forgot Password",
+        "no_account": "Don't have an account?",
+        "error": {
+            "require_username": "Please enter a username.",
+            "error_username": "6 to 16 characters",
+            "require_password": "Please enter a password.",
+            "error_password": "4 to 16 characters, including letters and numbers"
+        },
+        "success": {
+            "login": "Login successfully!"
+        }
+    }
+}

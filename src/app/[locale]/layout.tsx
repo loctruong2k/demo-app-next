@@ -1,7 +1,8 @@
-import type { Metadata } from 'next'
-import { Inter } from 'next/font/google'
-import './globals.css'
+import type { Metadata } from 'next';
 import { NextIntlClientProvider } from 'next-intl';
+import { Inter } from 'next/font/google';
+import './globals.css';
+import { NextAuthProvider } from '@/component/auth';
 const inter = Inter({ subsets: ['latin'] })
 
 export const metadata: Metadata = {
@@ -11,7 +12,7 @@ export const metadata: Metadata = {
 export function generateStaticParams() {
   return [{ locale: 'en' }, { locale: 'vi' }];
 }
-export default async function RootLayout({
+export default async function HomeLayout({
   children,
   params: { locale }
 }: {
@@ -22,16 +23,17 @@ export default async function RootLayout({
 }) {
   let messages;
   try {
-    messages = (await import(`../../messages/${locale}.json`)).default;
+    messages = (await import(`../messages/${locale}.json`)).default;
   } catch (error) {
     //
   }
-
   return (
     <html lang="en">
       <body className={inter.className}>
         <NextIntlClientProvider locale={locale} messages={messages}>
-          {children}
+          <NextAuthProvider>
+            {children}
+          </NextAuthProvider>
         </NextIntlClientProvider>
       </body>
     </html>

@@ -1,7 +1,7 @@
 import { configApp } from '@/constants/config';
-import type { Metadata } from 'next'
-import { Inter } from 'next/font/google'
+import type { Metadata } from 'next';
 import { NextIntlClientProvider } from 'next-intl';
+import { Inter } from 'next/font/google';
 const inter = Inter({ subsets: ['latin'] })
 
 export const metadata: Metadata = {
@@ -22,16 +22,16 @@ export default async function LoginLayout({
 }) {
   let messages;
   try {
-    messages = (await import(`../../../messages/${locale}.json`)).default;
+    messages = (await import(`../../messages/${locale}.json`)).default;
   } catch (error) {
     //
   }
   return (
     <html lang="en">
       <body className={inter.className}>
-        <NextIntlClientProvider locale={locale} messages={messages}>
-          {children}
-        </NextIntlClientProvider>
+          <NextIntlClientProvider locale={locale} messages={messages}>
+              {children}
+          </NextIntlClientProvider>
       </body>
     </html>
   )

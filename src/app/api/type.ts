@@ -1,10 +1,10 @@
 export interface ResponseSuccess<T> {
-    status: number;
+    success: boolean;
     data: T;
     message?: string;
 }
 
 export interface ResponseError {
-    status: number;
-    message: string;
+    success: boolean;
+    error: string;
 }

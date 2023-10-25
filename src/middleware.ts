@@ -19,7 +19,6 @@ const authMiddleware = withAuth(
     {
         callbacks: {
             authorized: ({ token }) => {
-                console.log("authorized", token);
                 return !!token
             }
         },
@@ -37,8 +36,6 @@ export default async function middleware(request: NextRequest) {
     );
     const pathname = request.nextUrl.pathname
     const isPublicPage = publicPathnameRegex.test(pathname);
-    console.log("isPublicPage",isPublicPage);
-    
     if (isPublicPage) {
         return intlMiddleware(request);
     } else {
