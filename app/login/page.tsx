@@ -9,7 +9,10 @@ import Link from 'next/link';
 import { PATH } from '@/src/constants/path';
 import { signInApi } from '@/src/api/auth';
 import { useToast } from '@/src/components/toast/hook';
-type Props = {}
+import { useRouter } from 'next/navigation';
+import { useMutation } from '@tanstack/react-query';
+import { queryKeys } from '@/src/constants/query-key';
+import { queryClient } from '@/src/components/check-login';
 const schema = yup
     .object({
         username: yup
@@ -28,8 +31,9 @@ const schema = yup
             .min(6, "Mật khẩu phải đủ 6 ~ 16 ký tự"),
     })
     .required();
-function LoginPage({ }: Props) {
+const LoginPage = () => {
     const toast = useToast()
+    const router = useRouter()
     const {
         register,
         handleSubmit,
@@ -38,19 +42,26 @@ function LoginPage({ }: Props) {
         resolver: yupResolver<any>(schema),
         mode: "all",
     });
-    const onsubmit = async (data: LoginForm) => {
-        try {
-            const res = await signInApi(data)
-            if (res) {
-                localStorage.setItem("xyz", res.token)
+    const { mutate, isPending } = useMutation({
+        mutationKey: [queryKeys.login],
+        mutationFn: signInApi,
+        onError: (error: any) => {
+            toast.error({ message: error + "" })
+        },
+        onSuccess: (data) => {
+            if (!data) {
+                toast.error({ message: "Không thể đăng nhập lúc này." })
+                return
             }
+            localStorage.setItem("xyz", data?.token)
+            queryClient.setQueryData([queryKeys.token], data.token)
             toast.success({ message: "Đăng nhập thành công!" })
-        } catch (error) {
-            toast.error({
-                message: error + "",
-            })
+            router.replace(PATH.home)
         }
-    }    
+    })
+    const onsubmit = async (data: LoginForm) => {
+        mutate(data)
+    }
     return (
         <div className="flex items-center justify-center h-screen w-screen flex-col py-8">
             <div className='flex-1 flex items-center justify-center flex-col'>
@@ -73,9 +84,10 @@ function LoginPage({ }: Props) {
                         </div>
                         <div className='w-full flex items-center'>
                             <button
+                                disabled={isPending}
                                 type="submit"
-                                disabled={!isValid}
-                                className='w-full text-center bg-sky-500/75 py-2 mt-2 rounded text-white font-medium hover:bg-sky-600 disabled:cursor-not-allowed'>
+                                className='w-full flex items-center justify-center text-center bg-sky-500/75 py-2 mt-2 rounded text-white font-medium hover:bg-sky-600 disabled:cursor-not-allowed'>
+                                <div className={`w-4 h-4 border-t-2 mr-2 border-blue-200 border-solid rounded-full animate-spin ${!isPending && "hidden"}`} />
                                 Đăng nhập
                             </button>
                         </div>

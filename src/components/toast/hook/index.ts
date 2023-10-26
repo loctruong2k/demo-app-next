@@ -1,7 +1,4 @@
 "use client"
-import { useContext } from "react"
-import { ToastContext, ToastContextValue } from "../context"
-import { Toast } from "../type"
 import { createView } from "../view/renderView";
 
 interface ToastConfig {
@@ -42,7 +39,6 @@ const destroyMessage = (id: number) => {
 }
 
 export const useToast = () => {
-    const context = useContext<ToastContextValue>(ToastContext)
     const success = (toasts: ToastConfig) => {
         controlMessage(toasts, "success")
     }
