@@ -9,7 +9,7 @@ import React, { Fragment, useEffect } from 'react'
 type Props = {
     children: React.ReactNode
 }
-const publicPath = [PATH.login, PATH.register]
+const publicPath = [PATH.login, PATH.register,PATH.forgotPassword]
 export const queryClient = new QueryClient()
 function AuthRequest({ children }: Props) {
     const router = useRouter()

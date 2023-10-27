@@ -12,7 +12,10 @@ export const getInfo = async () => {
             return res.data.data
         }
         throw new Error(res.data.error)
-    } catch (error) {
+    } catch (error: any) {
+        if (error.response) {
+            throw new Error(error.response.data.error + "")
+        }
         throw new Error(error + "")
     }
 }

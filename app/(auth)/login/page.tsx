@@ -80,7 +80,7 @@ const LoginPage = () => {
                             <input {...register("password")} type='password' className="h-10 mt-2 border w-96 pl-2 rounded" placeholder='6 ~ 16 ký tự' />
                         </div>
                         <div className='flex justify-end'>
-                            <Link href={PATH.register} className="text-blue-500 hover:underline">Quên mật khẩu?</Link>
+                            <Link href={PATH.forgotPassword} className="text-blue-500 hover:underline">Quên mật khẩu?</Link>
                         </div>
                         <div className='w-full flex items-center'>
                             <button
