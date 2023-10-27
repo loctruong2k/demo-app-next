@@ -10,12 +10,12 @@ export interface MenuType {
 
 export const ListMenuData: MenuType[] = [
     {
-        icon: <i className="fa-solid fa-user"></i>,
+        icon: <i className="fa-solid fa-user text-blue-500"></i>,
         title: "Thông tin",
         path: "",
     },
     {
-        icon: <i className="fa-solid fa-lock"></i>,
+        icon: <i className="fa-solid fa-lock text-orange-500"></i>,
         title: "Đổi mật khẩu",
         path: "",
     },
@@ -23,6 +23,6 @@ export const ListMenuData: MenuType[] = [
         icon: <i className="fa-solid fa-right-from-bracket"></i>,
         title: "Đăng xuất",
         path: "",
-        className:"text-orange-700"
+        className:"text-red-500"
     }
 ]

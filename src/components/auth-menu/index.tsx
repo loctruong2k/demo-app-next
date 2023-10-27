@@ -7,6 +7,7 @@ import { InfoData } from '@/src/api/info/type'
 import Image from 'next/image'
 import { DB_HOST } from '@/src/api/config'
 import { onClose } from './hook'
+import './index.css'
 
 function AuthMenu() {
     const { data: profile } = useQuery<InfoData>({
@@ -15,7 +16,7 @@ function AuthMenu() {
     return (
         <div id="auth-menu" className='hidden'>
             <div
-                className="fixed right-2 top-16 z-40 bg-slate-50 shadow py-4 px-2 min-w-[200px] rounded-sm"
+                className="background-auth-menu fixed right-2 top-16 z-40 bg-slate-50 shadow py-4 px-2 min-w-[200px] rounded-sm"
             >
                 <ul>
                     <li>
