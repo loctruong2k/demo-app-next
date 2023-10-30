@@ -16,7 +16,7 @@ function AuthMenu() {
     return (
         <div id="auth-menu" className='hidden'>
             <div
-                className="background-auth-menu fixed right-2 top-16 z-40 bg-slate-50 shadow py-4 px-2 min-w-[200px] rounded-sm"
+                className="background-auth-menu fixed right-2 top-16 z-40 bg-white shadow py-4 px-2 min-w-[200px] rounded-sm"
             >
                 <ul>
                     <li>

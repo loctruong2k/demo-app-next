@@ -1,6 +1,8 @@
 import { AxiosError } from "axios";
 import { ResponseApi, api } from "..";
 import { ForgotPasswordForm, LoginData, LoginForm, RegisterForm } from "./type";
+import { handleError } from "@/src/helpers/handleErrorAPI";
+import { addTokenToRequest } from "@/src/helpers/getToken";
 
 export const signInApi = async (form: LoginForm) => {
     try {
@@ -10,10 +12,7 @@ export const signInApi = async (form: LoginForm) => {
         }
         throw new Error(res.data.error)
     } catch (error: any) {
-        if (error.response) {
-            throw new Error(error.response.data.error + "")
-        }
-        throw new Error(error + "")
+        handleError(error)
     }
 }
 
@@ -25,10 +24,7 @@ export const registerApi = async (form: RegisterForm) => {
         }
         throw new Error(res.data.error)
     } catch (error: any) {
-        if (error.response) {
-            throw new Error(error.response.data.error + "")
-        }
-        throw new Error(error + "")
+        handleError(error)
     }
 }
 
@@ -40,9 +36,21 @@ export const forgotPassword = async (form: ForgotPasswordForm) => {
         }
         throw new Error(res.data.error)
     } catch (error: any) {
-        if (error.response) {
-            throw new Error(error.response.data.error + "")
+        handleError(error)
+    }
+}
+
+export const verifyTokenAPI = async () => {
+    try {
+        const res = await api.get<ResponseApi<string>>("/auth/verify-token", {
+            headers: addTokenToRequest()
+        })
+        if (res.data.success) {
+            return res.data
+        } else {
+            throw new Error(res.data.error)
         }
-        throw new Error(error + "")
+    } catch (error) {
+        handleError(error)
     }
 }

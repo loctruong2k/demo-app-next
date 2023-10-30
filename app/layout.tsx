@@ -31,9 +31,9 @@ export default function RootLayout({
             <body className={`${inter.className} min-w-[325px]`}>
                 <AuthRequest>
                     {children}
-                    <div id={"box-message"} className="fixed top-4 right-4"></div>
+                    <div id={"box-message"} className="fixed z-[999999] top-4 right-4"></div>
                 </AuthRequest>
             </body>
         </html>
-    )
+    ) 
 }

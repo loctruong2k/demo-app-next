@@ -5,8 +5,10 @@ export interface InfoData {
     avatar: string;
     background: string;
     slug: string;
+    address: string;
     birthday: Date;
     numberPhone: number;
     description: string;
-    status: string
+    status: string,
+    created_at: Date
 }
