@@ -1,8 +1,7 @@
-import { AxiosError } from "axios";
+import { addTokenToRequest } from "@/src/helpers/getToken";
+import { handleError } from "@/src/helpers/handleErrorAPI";
 import { ResponseApi, api } from "..";
 import { ForgotPasswordForm, LoginData, LoginForm, RegisterForm } from "./type";
-import { handleError } from "@/src/helpers/handleErrorAPI";
-import { addTokenToRequest } from "@/src/helpers/getToken";
 
 export const signInApi = async (form: LoginForm) => {
     try {

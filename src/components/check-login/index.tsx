@@ -5,7 +5,7 @@ import { queryKeys } from '@/src/constants/query-key'
 import { handleLogout } from '@/src/helpers/handleLogout'
 import { HydrationBoundary, QueryClient, QueryClientProvider, useMutation } from '@tanstack/react-query'
 import { usePathname, useRouter } from 'next/navigation'
-import React, { useEffect } from 'react'
+import React, { useEffect, useRef } from 'react'
 
 type Props = {
     children: React.ReactNode
@@ -22,10 +22,11 @@ export const queryClient = new QueryClient({
 function AuthRequest({ children }: Props) {
     const router = useRouter()
     const pathname = usePathname()
-
+    const disableAPI = useRef<boolean>(false)
     useEffect(() => {
         const token = localStorage.getItem("xyz")
-        if (token) {
+        if (token && !disableAPI.current) {
+            disableAPI.current = true
             verifyToken()
         }
         if (publicPath.includes(pathname)) {

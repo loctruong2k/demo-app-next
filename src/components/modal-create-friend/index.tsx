@@ -24,17 +24,17 @@ const ModalSearchUser = (props: Props) => {
                     {
                         title: "Tìm theo tên",
                         id: "1",
-                        children: <SearchName />
+                        children: <SearchName onClose={props.onClose} />
                     },
                     {
                         title: "Tìm theo email",
                         id: "2",
-                        children: <SearchName />
+                        children: <></>
                     },
                     {
                         title: "Tìm theo SĐT",
                         id: "3",
-                        children: <SearchName />
+                        children: <></>
                     }
                 ]} />
 

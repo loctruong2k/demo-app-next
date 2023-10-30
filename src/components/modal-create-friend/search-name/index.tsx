@@ -6,10 +6,16 @@ import moment from 'moment';
 import Image from 'next/image';
 import React, { useEffect, useRef, useState } from 'react'
 import Empty from '../../empty';
+import { useRouter } from 'next/navigation';
+import { PATH } from '@/src/constants/path';
+import Link from 'next/link';
 
-type Props = {}
+type Props = {
+    onClose: () => void
+}
 
-function SearchName({ }: Props) {
+function SearchName({ onClose }: Props) {
+    const router = useRouter()
     const [keyword, setKeyword] = useState<string>("")
     const [data, setData] = useState<InfoData[]>([])
     const [loading, setLoading] = useState<boolean>(false)
@@ -54,7 +60,10 @@ function SearchName({ }: Props) {
             </div>
             <div className="">
                 {data.length > 0 ? data.map((item, index) => {
-                    return <div key={index} className='p-2 m-2 flex border-b'>
+                    return <Link
+                        href={`${PATH.info}/${item.slug}`}
+                        onClick={onClose}
+                        key={index} className='p-2 m-2 flex border-b'>
                         <div className='flex items-center justify-center bg-slate-50 w-[40px] h-[40px] rounded-full'>
                             {item.avatar ?
                                 <Image src={`${DB_HOST}/${item.avatar}`} alt='' width={48} height={48} className="rounded-full" />
@@ -66,7 +75,7 @@ function SearchName({ }: Props) {
                             <h3 className="text-sm font-bold">{item.fullName}</h3>
                             <p className="text-xs text-gray-400 truncate">{item.numberPhone || item.description || item.address || item.birthday && moment(item.birthday).format('DD/MM/YYYY') || "Không có thông tin thêm."}</p>
                         </div>
-                    </div>
+                    </Link>
                 })
                     :
                     keyword ?

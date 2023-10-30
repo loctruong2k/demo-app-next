@@ -1,6 +1,7 @@
 import { addTokenToRequest } from "@/src/helpers/getToken"
 import { ResponseApi, api } from ".."
-import { InfoData } from "./type"
+import { InfoData, InfoSlugData } from "./type"
+import { handleError } from "@/src/helpers/handleErrorAPI"
 
 // thông tin người dùng đăng nhập
 export const getInfo = async () => {
@@ -13,10 +14,7 @@ export const getInfo = async () => {
         }
         throw new Error(res.data.error)
     } catch (error: any) {
-        if (error.response) {
-            throw new Error(error.response.data.error + "")
-        }
-        throw new Error(error + "")
+        handleError(error)
     }
 }
 // tìm kiếm theo tên người dùng fullname
@@ -33,9 +31,24 @@ export const searchFullName = async (txt: string) => {
         }
         throw new Error(res.data.error)
     } catch (error: any) {
-        if (error.response) {
-            throw new Error(error.response.data.error + "")
+        handleError(error)
+    }
+}
+
+// lấy thông tin info theo slug
+export const getInfoSlug = async (slug: string) => {
+    try {
+        const res = await api.get<ResponseApi<InfoSlugData>>("/info/slug", {
+            params: {
+                slug: slug
+            },
+            headers: addTokenToRequest()
+        })
+        if (res.data.success) {
+            return res.data.data
         }
-        throw new Error(error + "")
+        throw new Error(res.data.error)
+    } catch (error) {
+        handleError(error)
     }
 }
