@@ -1,4 +1,3 @@
-import AuthMenu from '@/src/components/auth-menu'
 import HeaderPage from '@/src/components/header'
 import { Inter } from 'next/font/google'
 import { Fragment } from 'react'
@@ -14,8 +13,10 @@ export default function RootLayout({
         <Fragment>
             <div className={`flex flex-col relative ${inter.className}`} style={inter.style}>
                 <HeaderPage />
-                <AuthMenu />
-                {children}
+
+                <div className="fex-1">
+                    {children}
+                </div>
             </div>
         </Fragment>
     )

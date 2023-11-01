@@ -8,11 +8,13 @@ import Image from 'next/image'
 import Link from 'next/link'
 import { onOpen } from '../auth-menu/hook'
 import Modal from '../modal'
-import { Fragment, useState } from 'react'
+import { Fragment, useRef, useState } from 'react'
 import ModalSearchUser from '../modal-create-friend'
+import AuthMenu from '../auth-menu'
 
 function HeaderPage() {
     const [isSearch, setSearch] = useState(false)
+    const ref = useRef<HTMLDivElement>(null)
     const { data: token } = useQuery<string>({
         queryKey: [queryKeys.token]
     })
@@ -24,7 +26,7 @@ function HeaderPage() {
 
     return (
         <Fragment>
-            <div className='shadow-md z-10'>
+            <div ref={ref} className='shadow-md z-10 fixed top-0 w-screen'>
                 <div className='flex py-2 px-4 bg-white xl:max-w-[1366px] m-auto'>
                     <div className='flex items-center flex-1'>
                         <Link href={PATH.home}>
@@ -64,6 +66,8 @@ function HeaderPage() {
                     </div>
                 </div>
             </div>
+            <div style={{ height: ref.current?.offsetHeight }} />
+            <AuthMenu />
             <ModalSearchUser open={isSearch} onClose={() => setSearch(false)} />
         </Fragment>
     )

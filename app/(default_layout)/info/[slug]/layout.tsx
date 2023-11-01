@@ -12,7 +12,7 @@ export default function RootLayout({
 }) {
     return (
         <Fragment>
-            <div className='w-screen'>
+            <div className='w-screen h-full'>
                 {children}
             </div>
         </Fragment>
