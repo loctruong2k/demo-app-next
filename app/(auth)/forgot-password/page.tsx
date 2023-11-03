@@ -30,7 +30,7 @@ const ForgotPassword = () => {
         mode: "all",
     });
     const { mutate, isPending } = useMutation({
-        mutationKey: [queryKeys.login],
+        mutationKey: [queryKeys.forgot_password],
         mutationFn: forgotPassword,
         onError: (error: any) => {
             toast.error({ message: error + "" })

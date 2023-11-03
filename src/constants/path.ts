@@ -4,4 +4,5 @@ export const PATH = {
     register: "/register",
     forgotPassword: "/forgot-password",
     info: "/info",
+    message: "/message"
 }

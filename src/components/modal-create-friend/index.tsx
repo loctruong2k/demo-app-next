@@ -8,6 +8,7 @@ interface Props {
     onClose: () => void
 }
 const ModalSearchUser = (props: Props) => {
+    if (!props.open) return null
     return (
         <Modal open={props.open} onClose={props.onClose} className="w-screen h-screen rounded md:w-[500px] md:h-auto">
             <div className="flex justify-between items-center p-3 border-b">

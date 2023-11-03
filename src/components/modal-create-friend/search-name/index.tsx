@@ -11,15 +11,16 @@ import { PATH } from '@/src/constants/path';
 import Link from 'next/link';
 
 type Props = {
-    onClose: () => void
+    onClose: () => void;
 }
 
 function SearchName({ onClose }: Props) {
-    const router = useRouter()
     const [keyword, setKeyword] = useState<string>("")
     const [data, setData] = useState<InfoData[]>([])
     const [loading, setLoading] = useState<boolean>(false)
     const timer = useRef<NodeJS.Timeout | undefined>(undefined);
+
+
     const onSearchName = (e: string) => {
         setKeyword(e)
         if (!loading) {
@@ -52,6 +53,7 @@ function SearchName({ onClose }: Props) {
                         onChange={e => onSearchName(e.target.value)}
                         className='h-10 outline-none bg-slate-100 w-full pl-2 rounded'
                         placeholder='Tìm kiếm theo tên ...'
+                        autoFocus
                     />
                 </div>
             </div>

@@ -1,5 +1,7 @@
+import { keyPath } from "../constants/keyPath"
+
 export const getToken = () => {
-    return localStorage.getItem("xyz")
+    return localStorage.getItem(keyPath.token)
 }
 
 export const addTokenToRequest = () => {

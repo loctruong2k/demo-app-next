@@ -43,14 +43,14 @@ const RegisterPage = () => {
         mode: "all",
     });
     const { mutate, isPending } = useMutation({
-        mutationKey: [queryKeys.login],
+        mutationKey: [queryKeys.register],
         mutationFn: registerApi,
         onError: (error: any) => {
             toast.error({ message: error + "" })
         },
         onSuccess: (data) => {
             if (!data) {
-                toast.error({ message: "Không thể đăng nhập lúc này." })
+                toast.error({ message: "Không thể tạo tài khoản lúc này." })
                 return
             }
             toast.success({ message: "Tạo tài khoản thành công. Vui lòng xác nhận email đăng ký để kích hoạt tài khoản." })

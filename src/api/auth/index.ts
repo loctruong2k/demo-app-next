@@ -6,11 +6,11 @@ import { ForgotPasswordForm, LoginData, LoginForm, RegisterForm } from "./type";
 export const signInApi = async (form: LoginForm) => {
     try {
         const res = await api.post<ResponseApi<LoginData>>("/auth/login", form)
-        if (res.data.success) {
+        if (res?.data?.success) {
             return res.data.data
         }
         throw new Error(res.data.error)
-    } catch (error: any) {
+    } catch (error: any) {        
         handleError(error)
     }
 }
@@ -52,4 +52,8 @@ export const verifyTokenAPI = async () => {
     } catch (error) {
         handleError(error)
     }
+}
+
+export const firebaseAuth = async () => {
+    
 }

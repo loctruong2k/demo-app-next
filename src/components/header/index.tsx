@@ -26,7 +26,7 @@ function HeaderPage() {
 
     return (
         <Fragment>
-            <div ref={ref} className='shadow-md z-10 fixed top-0 w-screen'>
+            <div id={'header-app'} ref={ref} className='shadow-md z-10 fixed top-0 w-screen'>
                 <div className='flex py-2 px-4 bg-white xl:max-w-[1366px] m-auto'>
                     <div className='flex items-center flex-1'>
                         <Link href={PATH.home}>

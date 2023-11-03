@@ -48,7 +48,7 @@ const LoginPage = () => {
         onError: (error: any) => {
             toast.error({ message: error + "" })
         },
-        onSuccess: (data) => {
+        onSuccess: async (data) => {
             if (!data) {
                 toast.error({ message: "Không thể đăng nhập lúc này." })
                 return

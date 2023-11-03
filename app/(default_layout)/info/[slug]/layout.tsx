@@ -1,5 +1,3 @@
-import AuthMenu from '@/src/components/auth-menu'
-import HeaderPage from '@/src/components/header'
 import { Inter } from 'next/font/google'
 import { Fragment } from 'react'
 
