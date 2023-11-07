@@ -1,6 +1,6 @@
 import { InfoData } from "@/src/api/info/type";
-import { MessageItemData } from "../list-message/type";
 import { MessageForm } from "../type";
+import { ItemMessageData } from "../list-message/type";
 
 export interface MemberGroup {
     accountId: string,
@@ -27,8 +27,8 @@ export interface MessageFormContextType {
     userInfo?: InfoData,
     members?: MemberGroup[],
     setting?: SettingGroup,
-    parentItem?: MessageItemData,
-    messagePending?: MessageForm
+    parentItem?: ItemMessageData,
+    messagePending?: ItemMessageData,
 }
 
 export interface ContextType {
@@ -37,5 +37,6 @@ export interface ContextType {
 }
 
 export enum keyContext {
-    SendMessage = "SendMessage"
+    SendMessage = "SendMessage",
+    ReplyMessage = "ReplyMessage"
 }

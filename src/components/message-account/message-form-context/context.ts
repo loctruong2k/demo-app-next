@@ -4,10 +4,7 @@ import { ContextType, MessageFormContextType } from "./type";
 
 export const initDataMessageContext: ContextType = {
     data: {
-        infoBox: {
-            accountId: "",
-            groupId: ""
-        }
+        id: ""
     },
     handleChange: () => { }
 }

@@ -16,3 +16,10 @@ export const renderFileType = (name: string) => {
     }
     return "/assets/file-type/file.png"
 }
+
+export const getFileType = (name: string) =>{
+    if (name.endsWith(".jpg") || name.endsWith(".jpeg") || name.endsWith(".png")) {
+        return "image"
+    }
+    return "file"
+}

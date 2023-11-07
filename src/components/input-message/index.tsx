@@ -4,17 +4,23 @@ import { queryKeys } from "@/src/constants/query-key"
 import { useSocket } from "@/src/socket-io/container/hook"
 import { useQuery } from "@tanstack/react-query"
 import { EmojiClickData } from "emoji-picker-react"
-import { useCallback, useRef, useState } from "react"
+import { useCallback, useEffect, useRef, useState } from "react"
 import EmojiPicker from "../emoji-picker"
 import { useFormMessage } from "../message-account/message-form-context/hook"
 import { MessageForm } from "../message-account/type"
 import SendButton from "../send-button"
 import './index.css'
 import ListFile from "./list-file"
+import { FileMessageData } from "@/src/api/uploads/message/type"
+import { emitKeys } from "@/src/constants/emitKeys"
+import { ItemMessageData } from "../message-account/list-message/type"
+import moment from "moment"
+import { keyContext } from "../message-account/message-form-context/type"
+import RenderAvatar from "../render-avatar"
 type Props = {}
 
 function InputMessage({ }: Props) {
-  const { data } = useFormMessage()
+  const { data, handleChange } = useFormMessage()
   const { data: profile } = useQuery<InfoData>({
     queryKey: [queryKeys.profile]
   })
@@ -23,7 +29,16 @@ function InputMessage({ }: Props) {
 
   const inputRef = useRef<HTMLDivElement>(null)
 
-  const [files, setFiles] = useState<File[]>([])
+  const [files, setFiles] = useState<any[]>([])
+
+  const parentItem = data.parentItem
+
+  useEffect(() => {
+    if (parentItem) {
+      if (!inputRef.current) return
+      inputRef.current.focus();
+    }
+  }, [parentItem])
 
   // nhận file từ input[type = "file"]
   const onChangeFile = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -59,6 +74,10 @@ function InputMessage({ }: Props) {
         setFiles(prev => [...prev, ...fileArray])
       }
     }
+    const textToPaste = e.clipboardData.getData('text/plain');
+    if (inputRef.current) {
+      inputRef.current.innerHTML = inputRef.current.innerHTML + textToPaste;
+    }
   }
 
   // add emoji
@@ -78,16 +97,84 @@ function InputMessage({ }: Props) {
     const message = inputRef.current.innerHTML
     if (!message && !files.length) return
     const messageData: MessageForm = {
-      content: message,
+      content: message === "Aa" ? "" : message,
       groupId: data.id,
-      files: files,
-      parentId: data.parentItem?._id
+      files: files.map(i => i._id),
+      parentId: parentItem?._id
     }
+    resetForm()
+    socket?.emit(emitKeys.message.send, messageData)
+    handleSendLocalMessage(messageData)
+  }
+
+  const resetForm = () => {
+    setTimeout(() => {
+      if (!inputRef.current) return
+      inputRef.current.innerHTML = ""
+      setFiles([])
+      if (parentItem) {
+        closeReply()
+      }
+    }, 250);
+  }
+
+  const handleSendLocalMessage = (form: MessageForm) => {
+    if (!profile) return
+    const messageData: ItemMessageData = {
+      _id: "new",
+      content: form.content,
+      accountId: profile?.accountID + "",
+      chatsLike: [],
+      created_at: moment().toISOString(),
+      files: files,
+      groupId: data.id,
+      info: profile,
+      parentId: data.parentItem?._id + "",
+      status: "pending",
+      updated_at: moment().toISOString(),
+      parentMessage: parentItem,
+      parentMessageInfo: parentItem?.info
+    }
+    handleChange(keyContext.SendMessage, messageData)
+  }
+  const uploadFileChecking = () => {
+    const index = files.findIndex(i => !i._id)
+    return index > -1 ? true : false
+  }
+  const closeReply = () => {
+    handleChange(keyContext.ReplyMessage, undefined)
   }
 
   return (
     <div className={`border-t ${files.length ? "pt-1" : ""}`}>
-      <ListFile onDelete={handleDeleteFile} files={files} />
+      {parentItem ?
+        <div className="flex flex-row items-center px-20 bg-gray-50 rounded-xl py-2">
+          <RenderAvatar url={parentItem.info.avatar} />
+          <div className="ml-4 flex-1">
+            <h2 className="text-md font-bold text-gray-600">Trả lời: {parentItem.info.fullName}</h2>
+            {parentItem.content ?
+              <p className="text-gray-500 truncate w-[65vw]" dangerouslySetInnerHTML={{ __html: parentItem.content }}></p>
+              :
+              <p className="text-gray-500 truncate w-[65vw]">
+                Đính kèm file!
+              </p>
+            }
+          </div>
+          <div className="min-w-[24px]">
+            <i onClick={closeReply} className="fa-solid fa-xmark text-xl cursor-pointer"></i>
+          </div>
+        </div>
+        :
+        null
+      }
+      <ListFile
+        groupId={data.id}
+        onChangeFile={(files) => {
+          setFiles(files);
+        }}
+        onDelete={handleDeleteFile}
+        files={files}
+      />
       <div className="flex w-full items-center">
         <label htmlFor="file-message" className={`w-10 h-6 flex items-center justify-center`}>
           <i className="fa-regular fa-image text-xl text-gray-500"></i>
@@ -129,8 +216,20 @@ function InputMessage({ }: Props) {
             contentEditable={true}
             onKeyDown={(event) => {
               if (event.key === "Enter" && !event.shiftKey) {
-                sendMessageAction();
+                if (!data.messagePending) {
+                  sendMessageAction();
+                }
                 event.preventDefault();
+              }
+            }}
+            onInput={(e) => {
+              if (!inputRef.current) return
+              const value = inputRef.current.textContent
+              const element = document.getElementById("button-send-message") as HTMLButtonElement
+              if ((value === "Aa" || !value) && !files.length) {
+                element.disabled = true;
+              } else {
+                element.disabled = false;
               }
             }}
             onPaste={handlePaste}
@@ -140,8 +239,9 @@ function InputMessage({ }: Props) {
           </div>
         </div>
         <SendButton
-          disabled={false}
-          onClick={sendMessageAction} loading={false} />
+          disabled={!!data.messagePending || uploadFileChecking()}
+          onClick={sendMessageAction}
+        />
       </div>
     </div>
   )

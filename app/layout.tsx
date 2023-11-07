@@ -1,10 +1,9 @@
 import AuthRequest from '@/src/components/check-login'
 import type { Metadata } from 'next'
 import { Inter } from 'next/font/google'
+import 'react-photo-view/dist/react-photo-view.css'
 import { APP_NAME } from '../src/api/config'
 import './globals.css'
-import Head from 'next/head'
-import Script from 'next/script'
 const inter = Inter({ subsets: ['latin'] })
 
 export const metadata: Metadata = {

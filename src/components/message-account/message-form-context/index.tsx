@@ -16,7 +16,6 @@ type Props = {
 }
 
 function MessageFormContext({ children, id }: Props) {
-    const router = useRouter()
     const { data: profile } = useQuery<InfoData>({
         queryKey: [queryKeys.profile]
     })
@@ -37,7 +36,7 @@ function MessageFormContext({ children, id }: Props) {
     useEffect(() => {
         if (!socket) return
         // lấy thông tin account
-        socket.on(emitKeys.group.infoAccount, (data) => {            
+        socket.on(emitKeys.group.infoAccount, (data) => {
             if (!data.success) return
             setState(prev => ({
                 ...prev,
@@ -54,14 +53,25 @@ function MessageFormContext({ children, id }: Props) {
                     id: data.data.group._id,
                     members: members,
                     setting: data.setting
-                }))                
+                }))
                 socket.emit(emitKeys.group.infoAccount, memberChat.accountId)
             }
         })
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [socket])
     const handleChange = (key: keyContext, value?: any) => {
-        
+        if (key === keyContext.SendMessage) {
+            return setState(prev => ({
+                ...prev,
+                messagePending: value
+            }))
+        }
+        if (key === keyContext.ReplyMessage) {
+            return setState(prev => ({
+                ...prev,
+                parentItem: value
+            }))
+        }
     }
     return (
         <MessageContext.Provider value={{ data: state, handleChange }}>

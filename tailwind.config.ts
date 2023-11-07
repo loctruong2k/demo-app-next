@@ -21,7 +21,7 @@ const config: Config = {
         },
         "slide-hide": {
           '0%': { transform: 'translateY(0px)' },
-          '100%': { transform: 'translateY(-120vh)'},
+          '100%': { transform: 'translateY(-120vh)' },
         }
       },
       animation: {

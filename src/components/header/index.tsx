@@ -18,7 +18,7 @@ function HeaderPage() {
     const { data: token } = useQuery<string>({
         queryKey: [queryKeys.token]
     })
-    const { data: profile, isLoading } = useQuery({
+    const { data: profile } = useQuery({
         queryKey: [queryKeys.profile],
         queryFn: getInfo,
         enabled: !!token,
@@ -26,7 +26,7 @@ function HeaderPage() {
 
     return (
         <Fragment>
-            <div id={'header-app'} ref={ref} className='shadow-md z-10 fixed top-0 w-screen'>
+            <div id={'header-app'} ref={ref} className='shadow-md bg-white z-[999] fixed top-0 w-screen'>
                 <div className='flex py-2 px-4 bg-white xl:max-w-[1366px] m-auto'>
                     <div className='flex items-center flex-1'>
                         <Link href={PATH.home}>
@@ -66,7 +66,7 @@ function HeaderPage() {
                     </div>
                 </div>
             </div>
-            <div style={{ height: ref.current?.offsetHeight }} />
+            <div style={{ height: 56 }} />
             <AuthMenu />
             <ModalSearchUser open={isSearch} onClose={() => setSearch(false)} />
         </Fragment>

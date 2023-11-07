@@ -9,10 +9,8 @@ interface Props {
 
 function PageMessageID({ params }: Props) {
     return (
-        <div className={`flex relative w-full h-full`}>
-            <div className='w-full h-ful'>
-                <MessageBox id={params.id} />
-            </div>
+        <div className={`h-[calc(100vh-56px)] overflow-hidden`}>
+            <MessageBox id={params.id} />
         </div>
     )
 }

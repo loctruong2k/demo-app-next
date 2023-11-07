@@ -1,4 +1,5 @@
 "use client"
+import { PhotoProvider } from 'react-photo-view'
 import InputMessage from '../input-message'
 import ListMessage from './list-message'
 import MessageFormContext from './message-form-context'
@@ -9,14 +10,16 @@ interface Props {
 
 function MessageBox({ id }: Props) {
     return (
-        <MessageFormContext id={id}>
-            <div className='flex h-full w-full flex-col max-w-[1366px] mx-auto'>
-                <div className='flex-1 bg-slate-50'>
-                    <ListMessage />
+        <PhotoProvider className='w-full h-full'>
+            <MessageFormContext id={id}>
+                <div className='flex h-full w-full flex-col md:max-w-[1366px] md:mx-auto'>
+                    <div className='flex-1 overflow-auto bg-slate-100'>
+                        <ListMessage />
+                    </div>
+                    <InputMessage />
                 </div>
-                <InputMessage />
-            </div>
-        </MessageFormContext>
+            </MessageFormContext>
+        </PhotoProvider>
     )
 }
 

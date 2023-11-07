@@ -8,6 +8,11 @@ export const emitKeys = {
         infoGroup: "/group/info-group", // lấy thông tin của một group
         infoAccount: "/group/info-account", // lấy thông tin người nhắn
     },
+    message: {
+        send: "/message/send", // gửi tin nhắn
+        listMessage: "/message/list", // lấy danh sách tin nhắn
+        likeMessage: "/message/like", // like message chats
+    },
     notification: {
         index: "/notification" // gửi thông báo
     }

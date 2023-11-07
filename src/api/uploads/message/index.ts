@@ -8,7 +8,7 @@ export const uploadFileMessage = async (files: File[], groupId: string) => {
         files.forEach((file) => {
             formData.append("files", file)
         })
-        const res = await api.post<ResponseApi<FileMessageData[]>>(`/upload/message/${groupId}`, formData, {
+        const res = await api.post<ResponseApi<FileMessageData[]>>(`/upload/message/group/${groupId}`, formData, {
             headers: {
                 'Content-Type': 'multipart/form-data',
             }
@@ -17,6 +17,15 @@ export const uploadFileMessage = async (files: File[], groupId: string) => {
             return res.data.data
         }
         throw new Error(res.data.error)
+    } catch (error) {
+        handleError(error)
+    }
+}
+
+export const deleteFileMessage = async (ids: string[]) => {
+    try {
+        const res = await api.post<ResponseApi<string[]>>(`/upload/message/delete`, { ids: ids })
+        return res
     } catch (error) {
         handleError(error)
     }
