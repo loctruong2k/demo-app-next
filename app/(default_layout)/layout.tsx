@@ -13,7 +13,7 @@ export default function RootLayout({
         <Fragment>
             <div className={`flex h-screen w-screen flex-col relative ${inter.className}`} style={inter.style}>
                 <HeaderPage />
-                <div className="flex-1">
+                <div className="flex-1 h-[calc(100vh-56px)]">
                     {children}
                 </div>
             </div>

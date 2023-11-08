@@ -1,7 +1,7 @@
 import moment from "moment";
 
-export const formatTimeline = (timestamp: string) => {
-    const now = moment();
+export const formatTimeline = (timestamp: string, currentDate?: string) => {
+    const now = currentDate ? moment(currentDate) : moment();
     const inputMoment = moment(timestamp);
 
     const duration = moment.duration(now.diff(inputMoment));

@@ -1,19 +1,17 @@
-import { DB_HOST } from '@/src/api/config'
+"use client"
 import { InfoData } from '@/src/api/info/type'
 import { FileMessageData } from '@/src/api/uploads/message/type'
-import { formatTimeline } from '@/src/helpers/formatDuration'
 import { getFileType } from '@/src/helpers/renderTypeFile'
-import Image from 'next/image'
 import React from 'react'
+import MessageLike from '../../messafe-like'
+import RenderAvatar from '../../render-avatar'
 import TimeLine from '../../time-line'
 import { ItemMessageData } from '../list-message/type'
-import RenderFiles from './render-file'
-import RenderImage from './render-image'
-import "./index.css"
 import { useFormMessage } from '../message-form-context/hook'
 import { keyContext } from '../message-form-context/type'
-import RenderAvatar from '../../render-avatar'
-import MessageLike from '../../messafe-like'
+import "./index.css"
+import RenderFiles from './render-file'
+import RenderImage from './render-image'
 import RenderLike from './render-like'
 
 type Props = {
@@ -86,17 +84,20 @@ function ItemMessage({ item, index, profile }: Props) {
                                 :
                                 null
                             }
-                            <div className='flex flex-col mb-2'>
-                                {filesFormat.files.length > 0 ? filesFormat.files.map((item, index) => {
-                                    return <RenderFiles isCurrent={isCurrent} item={item} index={index} key={index} />
-                                }) : null}
-                            </div>
+                            {filesFormat.files.length > 0 ?
+                                <div className='flex flex-col mb-2'>
+                                    {filesFormat.files.map((item, index) => {
+                                        return <RenderFiles isCurrent={isCurrent} item={item} index={index} key={index} />
+                                    })}
+                                    {!isContent && item.likeMessageList?.length ? <div className="my-1"><RenderLike data={item.likeMessageList} /></div> : null}
+                                </div>
+                                : null}
                         </div>
                         <div className="relative flex flex-col justify-end items-end">
                             {item.parentMessage ?
                                 <div className="flex items-end flex-col">
                                     <p className="text-gray-400">{item.info.fullName} trả lời {item.parentMessageInfo?.fullName}</p>
-                                    <div onClick={scrollToItem} className="bg-gray-200 w-fit p-2 pb-6 px-4 rounded-xl cursor-pointer">
+                                    <div onClick={scrollToItem} className="bg-gray-200 w-fit p-2 pb-8 px-4 rounded-xl cursor-pointer">
                                         {item.parentMessage.content ?
                                             <div className="truncate text-gray-400" dangerouslySetInnerHTML={{ __html: item.parentMessage.content }} />
                                             :
@@ -121,7 +122,7 @@ function ItemMessage({ item, index, profile }: Props) {
                                         </div>
                                     </div>
 
-                                    <div className={`p-2 w-fit ${item.parentMessage && "mt-[-24px]"} min-w-[100px] bg-blue-100 rounded-xl max-w-[60vw] border border-gray-100`}>
+                                    <div className={`p-2 w-fit ${item.parentMessage && "mt-[-24px]"} mt-2 ${item.likeMessageList?.length ? "min-w-[70px]" : ""} bg-blue-100 rounded-xl max-w-[60vw] border border-gray-100`}>
                                         <p dangerouslySetInnerHTML={{ __html: item.content }} />
                                         {item.likeMessageList?.length ?
                                             <div className={`${item.likeMessageList?.length && "h-6"} mt-2 flex items-center relative `}>
@@ -176,7 +177,7 @@ function ItemMessage({ item, index, profile }: Props) {
                         {item.parentMessage ?
                             <div className="flex flex-col">
                                 <p className="text-gray-400">{item.info.fullName} trả lời {item.parentMessageInfo?.fullName}</p>
-                                <div onClick={scrollToItem} className="bg-gray-200 w-fit p-2 pb-6 px-4 rounded-xl cursor-pointer">
+                                <div onClick={scrollToItem} className="bg-gray-200 w-fit p-2 pb-10 px-4 rounded-xl cursor-pointer">
                                     {item.parentMessage.content ?
                                         <div className="truncate text-gray-400" dangerouslySetInnerHTML={{ __html: item.parentMessage.content }} />
                                         :
@@ -189,8 +190,8 @@ function ItemMessage({ item, index, profile }: Props) {
                             :
                             null
                         }
-                        <div className={`flex items-end justify-center ${item.parentMessage && "mt-[-24px]"}`}>
-                            <div className={`p-2 w-fit bg-white min-w-[70px] rounded-xl max-w-[60vw] border border-gray-100`}>
+                        <div className={`flex items-end ${item.parentMessage && "mt-[-24px]"}`}>
+                            <div className={`p-2 w-fit bg-white ${item.likeMessageList?.length ? "min-w-[70px]" : ""} mt-2 rounded-xl max-w-[60vw] border border-gray-100`}>
                                 <p dangerouslySetInnerHTML={{ __html: item.content }} />
                                 {item.likeMessageList?.length ?
                                     <div className={`${item.likeMessageList?.length && "h-6"} mt-1 flex items-center justify-end relative `}>

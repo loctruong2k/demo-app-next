@@ -11,6 +11,8 @@ import Modal from '../modal'
 import { Fragment, useRef, useState } from 'react'
 import ModalSearchUser from '../modal-create-friend'
 import AuthMenu from '../auth-menu'
+import { useMessageSocket } from '@/src/hooks/message/useMessage'
+import { useNotifications } from '@/src/hooks/notification'
 
 function HeaderPage() {
     const [isSearch, setSearch] = useState(false)
@@ -23,6 +25,8 @@ function HeaderPage() {
         queryFn: getInfo,
         enabled: !!token,
     })
+    useMessageSocket()
+    useNotifications()
 
     return (
         <Fragment>
@@ -40,17 +44,11 @@ function HeaderPage() {
                         </div>
                     </div>
                     <div className='flex'>
-                        <div onClick={() => setSearch(true)} className='relative group w-9 h-9 cursor-pointer flex items-center justify-center bg-slate-100 ml-2 rounded-full hover:bg-slate-300'>
+                        <div onClick={() => setSearch(true)} className='w-9 h-9 cursor-pointer flex items-center justify-center bg-slate-100 ml-2 rounded-full hover:bg-slate-300'>
                             <i className="fa-solid fa-plus"></i>
-                            <div className="absolute text-center top-12 min-w-max bg-slate-300 text-slate-700 text-sm px-2 py-1 rounded mt-2 opacity-0 group-hover:opacity-100 transition duration-300">
-                                Tạo mới
-                            </div>
                         </div>
-                        <div className='relative group w-9 h-9 cursor-pointer flex items-center justify-center bg-slate-100 ml-2 rounded-full hover:bg-slate-300'>
+                        <div className='w-9 h-9 cursor-pointer flex items-center justify-center bg-slate-100 ml-2 rounded-full hover:bg-slate-300'>
                             <i className="fa-regular fa-bell"></i>
-                            <div className="absolute text-center top-12 min-w-max bg-slate-300 text-slate-700 text-sm px-2 py-1 rounded mt-2 opacity-0 group-hover:opacity-100 transition duration-300">
-                                Thông báo
-                            </div>
                         </div>
                         <div
                             onClick={() => {

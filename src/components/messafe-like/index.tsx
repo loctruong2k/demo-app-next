@@ -1,12 +1,13 @@
-import React, { useEffect, useRef, useState } from 'react'
-import { LikeMessageForm, MessageLikeType } from './type'
-import { useSocket } from '@/src/socket-io/container/hook'
+"use client"
 import { emitKeys } from '@/src/constants/emitKeys'
+import { useSocket } from '@/src/socket-io/container/hook'
+import { useEffect, useRef, useState } from 'react'
 import { useFormMessage } from '../message-account/message-form-context/hook'
 import { statusList } from './data'
+import { LikeMessageForm, MessageLikeType } from './type'
 
 type Props = {
-    id: string
+    id: string;
 }
 
 
@@ -44,6 +45,7 @@ function MessageLike({ id }: Props) {
         }
         socket.emit(emitKeys.message.likeMessage, form)
     }
+
     return (
         <>
             <div ref={parentRef} className="relative w-6 h-6 flex item-center justify-center ">

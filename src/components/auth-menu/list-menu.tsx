@@ -8,6 +8,10 @@ export interface MenuType {
     className?: string
 }
 
+export enum MenuPathValue {
+    logout = "LOGOUT"
+}
+
 export const ListMenuData: MenuType[] = [
     {
         icon: <i className="fa-solid fa-user text-blue-500"></i>,
@@ -22,7 +26,7 @@ export const ListMenuData: MenuType[] = [
     {
         icon: <i className="fa-solid fa-right-from-bracket"></i>,
         title: "Đăng xuất",
-        path: "",
-        className:"text-red-500"
+        path: MenuPathValue.logout,
+        className: "text-red-500"
     }
 ]

@@ -1,6 +1,6 @@
 "use client"
 import React, { Fragment } from 'react'
-import { ListMenuData } from './list-menu'
+import { ListMenuData, MenuPathValue, MenuType } from './list-menu'
 import { useQuery } from '@tanstack/react-query'
 import { queryKeys } from '@/src/constants/query-key'
 import { InfoData } from '@/src/api/info/type'
@@ -8,11 +8,23 @@ import Image from 'next/image'
 import { DB_HOST } from '@/src/api/config'
 import { onClose } from './hook'
 import './index.css'
+import { queryClient } from '../check-login'
+import { useRouter } from 'next/navigation'
+import { PATH } from '@/src/constants/path'
 
 function AuthMenu() {
+    const router = useRouter()
     const { data: profile } = useQuery<InfoData>({
         queryKey: [queryKeys.profile]
     })
+    const handleItem = (item: MenuType) => {
+        if (item.path === MenuPathValue.logout) {
+            localStorage.clear();
+            queryClient.clear();
+            router.replace(PATH.login)
+            return
+        }
+    }
     return (
         <div id="auth-menu" className='hidden'>
             <div
@@ -35,7 +47,7 @@ function AuthMenu() {
                     </li>
                     {ListMenuData.map((item, index) => {
                         return (
-                            <li className={`py-1.5 cursor-pointer hover:bg-slate-300 px-2 rounded-sm ${item.className}`} key={index}>
+                            <li onClick={() => handleItem(item)} className={`py-1.5 cursor-pointer hover:bg-slate-300 px-2 rounded-sm ${item.className}`} key={index}>
                                 {item.icon} <span className='pl-2'>{item.title}</span>
                             </li>
                         )

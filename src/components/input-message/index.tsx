@@ -1,25 +1,25 @@
 "use client"
 import { InfoData } from "@/src/api/info/type"
+import { emitKeys } from "@/src/constants/emitKeys"
 import { queryKeys } from "@/src/constants/query-key"
 import { useSocket } from "@/src/socket-io/container/hook"
-import { useQuery } from "@tanstack/react-query"
+import { useQuery, useQueryClient } from "@tanstack/react-query"
 import { EmojiClickData } from "emoji-picker-react"
+import moment from "moment"
 import { useCallback, useEffect, useRef, useState } from "react"
 import EmojiPicker from "../emoji-picker"
+import { ItemMessageData } from "../message-account/list-message/type"
 import { useFormMessage } from "../message-account/message-form-context/hook"
+import { keyContext } from "../message-account/message-form-context/type"
 import { MessageForm } from "../message-account/type"
-import SendButton from "../send-button"
+import RenderAvatar from "../render-avatar"
+import SendButton, { startAnimation } from "../send-button"
 import './index.css'
 import ListFile from "./list-file"
-import { FileMessageData } from "@/src/api/uploads/message/type"
-import { emitKeys } from "@/src/constants/emitKeys"
-import { ItemMessageData } from "../message-account/list-message/type"
-import moment from "moment"
-import { keyContext } from "../message-account/message-form-context/type"
-import RenderAvatar from "../render-avatar"
 type Props = {}
 
 function InputMessage({ }: Props) {
+  const queryClient = useQueryClient()
   const { data, handleChange } = useFormMessage()
   const { data: profile } = useQuery<InfoData>({
     queryKey: [queryKeys.profile]
@@ -28,6 +28,7 @@ function InputMessage({ }: Props) {
   const socket = useSocket()
 
   const inputRef = useRef<HTMLDivElement>(null)
+  const timerSend = useRef<NodeJS.Timeout | undefined>(undefined);
 
   const [files, setFiles] = useState<any[]>([])
 
@@ -93,18 +94,24 @@ function InputMessage({ }: Props) {
 
   // send message
   const sendMessageAction = async () => {
-    if (!inputRef.current) return
-    const message = inputRef.current.innerHTML
-    if (!message && !files.length) return
-    const messageData: MessageForm = {
-      content: message === "Aa" ? "" : message,
-      groupId: data.id,
-      files: files.map(i => i._id),
-      parentId: parentItem?._id
+    if (timerSend.current) {
+      clearTimeout(timerSend.current)
     }
-    resetForm()
-    socket?.emit(emitKeys.message.send, messageData)
-    handleSendLocalMessage(messageData)
+    timerSend.current = setTimeout(() => {
+      if (!inputRef.current) return
+      const message = inputRef.current.innerHTML
+      if (!message && !files.length) return
+      const messageData: MessageForm = {
+        content: message === "Aa" ? "" : message,
+        groupId: data.id,
+        files: files.map(i => i._id),
+        parentId: parentItem?._id
+      }
+      startAnimation()
+      resetForm()
+      socket?.emit(emitKeys.message.send, messageData)
+      handleSendLocalMessage(messageData)
+    }, 250)
   }
 
   const resetForm = () => {
@@ -135,7 +142,8 @@ function InputMessage({ }: Props) {
       parentMessage: parentItem,
       parentMessageInfo: parentItem?.info
     }
-    handleChange(keyContext.SendMessage, messageData)
+    const listMessage: ItemMessageData[] = queryClient.getQueryData([queryKeys.group_message.listMessage, messageData.groupId]) as ItemMessageData[]
+    queryClient.setQueryData([queryKeys.group_message.listMessage, messageData.groupId], [messageData, ...listMessage])
   }
   const uploadFileChecking = () => {
     const index = files.findIndex(i => !i._id)
@@ -146,7 +154,7 @@ function InputMessage({ }: Props) {
   }
 
   return (
-    <div className={`border-t ${files.length ? "pt-1" : ""}`}>
+    <div className={`border-t ${files.length ? "pt-1" : ""} w-full`}>
       {parentItem ?
         <div className="flex flex-row items-center px-20 bg-gray-50 rounded-xl py-2">
           <RenderAvatar url={parentItem.info.avatar} />
@@ -216,9 +224,7 @@ function InputMessage({ }: Props) {
             contentEditable={true}
             onKeyDown={(event) => {
               if (event.key === "Enter" && !event.shiftKey) {
-                if (!data.messagePending) {
-                  sendMessageAction();
-                }
+                sendMessageAction();
                 event.preventDefault();
               }
             }}
@@ -239,7 +245,7 @@ function InputMessage({ }: Props) {
           </div>
         </div>
         <SendButton
-          disabled={!!data.messagePending || uploadFileChecking()}
+          disabled={uploadFileChecking()}
           onClick={sendMessageAction}
         />
       </div>

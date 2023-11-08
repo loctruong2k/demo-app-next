@@ -1,3 +1,4 @@
+"use client"
 import React, { useRef } from 'react'
 import './index.css'
 interface Props {
@@ -5,16 +6,21 @@ interface Props {
     disabled?: boolean
 }
 
+export const startAnimation = ()=>{
+    const element = document.getElementById("button-send-message")
+    if(element){
+        element.classList.add("animation-custom")
+        setTimeout(() => {
+            element.classList.remove("animation-custom")
+        }, 2000);
+    }
+}
+
 function SendButton({ onClick, disabled = true }: Props) {
     const divRef = useRef<HTMLButtonElement>(null)
     const onSendMessage = () => {
         onClick()
-        if (!divRef.current) return
-        divRef.current.classList.add("animation-custom")
-        setTimeout(() => {
-            if (!divRef.current) return
-            divRef.current.classList.remove("animation-custom")
-        }, 2000);
+        startAnimation()
     }
     return (
         <button

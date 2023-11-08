@@ -28,7 +28,6 @@ export interface MessageFormContextType {
     members?: MemberGroup[],
     setting?: SettingGroup,
     parentItem?: ItemMessageData,
-    messagePending?: ItemMessageData,
 }
 
 export interface ContextType {
