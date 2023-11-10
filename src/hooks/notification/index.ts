@@ -37,31 +37,37 @@ export const useNotifications = () => {
                         parentMessage: dataMessage.parentMessage,
                         parentMessageInfo: dataMessage.parentMessageInfo
                     }
+                    // thêm mới vào list nè
                     const listMessageId: ItemMessageData[] = queryClient.getQueryData([queryKeys.group_message.listMessage, messageData.groupId]) as ItemMessageData[]
-                    const newData = [messageData, ...listMessageId]
-                    queryClient.setQueryData([queryKeys.group_message.listMessage, messageData.groupId], newData)
+                    if (Array.isArray(listMessageId) && listMessageId.length) {
+                        const newData = [messageData, ...listMessageId]
+                        queryClient.setQueryData([queryKeys.group_message.listMessage, messageData.groupId], newData)
+                    }
+                    // cập nhật vào danh sách
                     const listGroup: ListGroupType[] = queryClient.getQueryData([queryKeys.listGroup]) as ListGroupType[]
-                    const newMessage = listGroup?.map((item) => {
-                        if (item.groups._id === messageData.groupId) {
-                            return {
-                                ...item,
-                                chatMessages: {
-                                    accountId: messageData.accountId,
-                                    content: messageData.content,
-                                    files: messageData.files,
-                                    groupId: messageData.groupId,
-                                    parentId: messageData.parentId,
-                                    _id: messageData._id
-                                },
-                                accountInfo: dataMessage.profile
+                    if (Array.isArray(listGroup) && listGroup?.length) {
+                        const newMessage = listGroup.map((item) => {
+                            if (item.groups._id === messageData.groupId) {
+                                return {
+                                    ...item,
+                                    chatMessages: {
+                                        accountId: messageData.accountId,
+                                        content: messageData.content,
+                                        files: messageData.files,
+                                        groupId: messageData.groupId,
+                                        parentId: messageData.parentId,
+                                        _id: messageData._id
+                                    },
+                                    accountInfo: dataMessage.profile
+                                }
                             }
-                        }
-                        return item
-                    })
-                    queryClient.setQueryData([queryKeys.listGroup], newMessage)
-                    setTimeout(() => {
-                        scrollToBottom()
-                    }, 500);
+                            return item
+                        })
+                        queryClient.setQueryData([queryKeys.listGroup], newMessage)
+                        setTimeout(() => {
+                            scrollToBottom()
+                        }, 500);
+                    }
                 }, 250);
             }
         })

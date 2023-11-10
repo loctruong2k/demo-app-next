@@ -8,10 +8,11 @@ import { LikeMessageForm, MessageLikeType } from './type'
 
 type Props = {
     id: string;
+    isCurrent?: boolean;
 }
 
 
-function MessageLike({ id }: Props) {
+function MessageLike({ id, isCurrent }: Props) {
     const [open, setOpen] = useState(false)
     const popupRef = useRef<HTMLDivElement>(null)
     const parentRef = useRef<HTMLDivElement>(null)
@@ -31,6 +32,10 @@ function MessageLike({ id }: Props) {
         const widthScreen = window.innerWidth
         var popupWidth = popupRef.current.offsetWidth;
         const rightPosition = widthScreen - position.x
+        if(isCurrent){
+            popupRef.current.style.left = `-20px`
+            return
+        }
         if (rightPosition < popupWidth) {
             popupRef.current.style.right = `-20px`
         }

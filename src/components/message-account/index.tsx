@@ -10,9 +10,13 @@ interface Props {
 
 function MessageBox({ id }: Props) {
     return (
-        <PhotoProvider className='w-full h-full'>
+        <PhotoProvider
+            onVisibleChange={e => {
+                console.log(e);
+
+            }} className='w-full h-full'>
             <MessageFormContext id={id}>
-                <div className='flex h-full w-full flex-col md:max-w-[1366px] md:mx-auto'>
+                <div className='flex h-full w-full flex-col'>
                     <div className='flex-1 overflow-auto bg-slate-100'>
                         <ListMessage />
                     </div>

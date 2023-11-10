@@ -11,9 +11,9 @@ export default function RootLayout({
 }) {
     return (
         <Fragment>
-            <div className={`flex h-screen w-screen flex-col relative ${inter.className}`} style={inter.style}>
+            <div className={`flex h-full w-full flex-col relative ${inter.className}`} style={inter.style}>
                 <HeaderPage />
-                <div className="flex-1 h-[calc(100vh-56px)]">
+                <div className="flex-1 h-[calc(100vh-56px)] w-full max-w-[1366px] min-w-[325px] m-auto">
                     {children}
                 </div>
             </div>

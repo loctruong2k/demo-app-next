@@ -58,7 +58,7 @@ function ItemMessage({ item, index, profile }: Props) {
     }
 
     const renderAvatar = () => {
-        return <div className='rounded-full overflow-hidden'>
+        return <div className='rounded-full w-[44px] h-[44px] overflow-hidden'>
             <RenderAvatar url={item.info.avatar} />
         </div>
     }
@@ -66,8 +66,8 @@ function ItemMessage({ item, index, profile }: Props) {
     const isContent = !!item.content
     if (isCurrent) {
         return (
-            <div id={item._id} className='flex flex-row items-start md:mx-2 my-3 justify-end px-2 py-2'>
-                <div className='flex flex-col mr-2 items-end'>
+            <div id={item._id} className='flex flex-row items-start my-3 justify-end px-2 py-2'>
+                <div className='flex-1 flex flex-col mr-2 items-end'>
                     <RenderImage isCurrent={isCurrent} images={filesFormat.images} />
                     <div className='flex items-end content-item'>
                         <div className='flex items-end'>
@@ -93,9 +93,9 @@ function ItemMessage({ item, index, profile }: Props) {
                                 </div>
                                 : null}
                         </div>
-                        <div className="relative flex flex-col justify-end items-end">
+                        <div className="relative flex-1 flex flex-col justify-end items-end">
                             {item.parentMessage ?
-                                <div className="flex items-end flex-col">
+                                <div className="flex w-full items-end flex-col">
                                     <p className="text-gray-400">{item.info.fullName} trả lời {item.parentMessageInfo?.fullName}</p>
                                     <div onClick={scrollToItem} className="bg-gray-200 w-fit p-2 pb-8 px-4 rounded-xl cursor-pointer">
                                         {item.parentMessage.content ?
@@ -116,14 +116,14 @@ function ItemMessage({ item, index, profile }: Props) {
                                         <div className='w-6 h-6 flex item-center justify-center'>
                                             <i className="fa-solid fa-ellipsis-vertical text-sm font-bold text-gray-500 cursor-pointer"></i>
                                         </div>
-                                        <MessageLike id={item._id} />
+                                        <MessageLike isCurrent={isCurrent} id={item._id} />
                                         <div className='w-6 h-6 flex item-center justify-center'>
                                             <i onClick={onReplyMessage} className="fa-solid fa-reply text-xs font-bold text-gray-500 cursor-pointer"></i>
                                         </div>
                                     </div>
 
-                                    <div className={`p-2 w-fit ${item.parentMessage && "mt-[-24px]"} mt-2 ${item.likeMessageList?.length ? "min-w-[70px]" : ""} bg-blue-100 rounded-xl max-w-[60vw] border border-gray-100`}>
-                                        <p dangerouslySetInnerHTML={{ __html: item.content }} />
+                                    <div className={`p-2 w-fit max-w-[60vw] ${item.parentMessage && "mt-[-24px]"} mt-2 ${item.likeMessageList?.length ? "min-w-[70px]" : ""} bg-blue-100 rounded-xl overflow-hidden border border-gray-100`}>
+                                        <p className='w-full break-words' dangerouslySetInnerHTML={{ __html: item.content }} />
                                         {item.likeMessageList?.length ?
                                             <div className={`${item.likeMessageList?.length && "h-6"} mt-2 flex items-center relative `}>
                                                 <div className="absolute bg-slate-200 p-1 rounded-2xl">
@@ -152,7 +152,7 @@ function ItemMessage({ item, index, profile }: Props) {
                 <div className='w-6 h-6 flex item-center justify-center'>
                     <i onClick={onReplyMessage} className="fa-solid fa-reply text-xs font-bold text-gray-500 cursor-pointer"></i>
                 </div>
-                <MessageLike id={item._id} />
+                <MessageLike isCurrent={isCurrent} id={item._id} />
                 <div className='w-6 h-6 flex item-center justify-center'>
                     <i className="fa-solid fa-ellipsis-vertical text-sm font-bold text-gray-500 cursor-pointer"></i>
                 </div>
@@ -191,8 +191,8 @@ function ItemMessage({ item, index, profile }: Props) {
                             null
                         }
                         <div className={`flex items-end ${item.parentMessage && "mt-[-24px]"}`}>
-                            <div className={`p-2 w-fit bg-white ${item.likeMessageList?.length ? "min-w-[70px]" : ""} mt-2 rounded-xl max-w-[60vw] border border-gray-100`}>
-                                <p dangerouslySetInnerHTML={{ __html: item.content }} />
+                            <div className={`p-2 w-fit bg-white ${item.likeMessageList?.length ? "min-w-[70px]" : ""} overflow-hidden mt-2 rounded-xl max-w-[60vw] border border-gray-100`}>
+                                <p className='w-full break-words' dangerouslySetInnerHTML={{ __html: item.content }} />
                                 {item.likeMessageList?.length ?
                                     <div className={`${item.likeMessageList?.length && "h-6"} mt-1 flex items-center justify-end relative `}>
                                         <div className="absolute bg-slate-200 p-1 rounded-2xl">

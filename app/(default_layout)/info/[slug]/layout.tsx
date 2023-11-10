@@ -10,7 +10,7 @@ export default function RootLayout({
 }) {
     return (
         <Fragment>
-            <div className='w-screen h-full'>
+            <div className='h-full overflow-hidden'>
                 {children}
             </div>
         </Fragment>

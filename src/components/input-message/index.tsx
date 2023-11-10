@@ -14,7 +14,6 @@ import { keyContext } from "../message-account/message-form-context/type"
 import { MessageForm } from "../message-account/type"
 import RenderAvatar from "../render-avatar"
 import SendButton, { startAnimation } from "../send-button"
-import './index.css'
 import ListFile from "./list-file"
 type Props = {}
 
@@ -78,6 +77,14 @@ function InputMessage({ }: Props) {
     const textToPaste = e.clipboardData.getData('text/plain');
     if (inputRef.current) {
       inputRef.current.innerHTML = inputRef.current.innerHTML + textToPaste;
+      const selection = window.getSelection();
+      const range = document.createRange();
+      range.selectNodeContents(inputRef.current);
+      range.collapse(false); // Di chuyển con trỏ xuống cuối cùng
+      if (!selection) return
+      selection.removeAllRanges();
+      selection.addRange(range);
+      inputRef.current.scrollTop = inputRef.current.scrollHeight;
     }
   }
 
@@ -194,7 +201,7 @@ function InputMessage({ }: Props) {
             <i className="fa-solid fa-face-smile text-xl text-gray-500"></i>
           </div>
         </EmojiPicker>
-        <div className="flex-1 m-2 rounded-xl p-2 bg-slate-100">
+        <div className="max-w-[calc(100%-144px)] flex-1 m-2 rounded-xl p-2 bg-slate-100">
           <div
             ref={inputRef}
             placeholder='Aa...'
@@ -240,7 +247,7 @@ function InputMessage({ }: Props) {
             }}
             onPaste={handlePaste}
             suppressContentEditableWarning={true}
-            className={`outline-none transition-all duration-500 text-gray-400 min-h-[16px] max-h-[136px] overflow-auto input-maximize`}>
+            className={`outline-none transition-all duration-500 text-gray-400 min-h-[16px] max-h-[136px] overflow-x-hidden input-maximize`}>
             Aa
           </div>
         </div>

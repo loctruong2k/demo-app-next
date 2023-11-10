@@ -22,17 +22,12 @@ const renderSizeFile = (size: number) => {
 
 function RenderFiles({ item, isCurrent }: Props) {
     const background = isCurrent ? "bg-blue-100" : "bg-white"
-    const [progress, setProgress] = useState(0)
     const downloadFile = () => {
         const url = `${DB_HOST}/${item.url}`
         axios({
             url: url,
             method: 'GET',
             responseType: 'blob',
-            onDownloadProgress: (progressEvent) => {
-                var percentCompleted = Math.round((progressEvent.loaded * 100) / (progressEvent.total || 100));
-                setProgress(percentCompleted)
-            },
         }).then((response) => {
             const href = URL.createObjectURL(response.data);
             const link = document.createElement('a');
@@ -54,7 +49,6 @@ function RenderFiles({ item, isCurrent }: Props) {
                 <h3 className='truncate text-xs text-gray-600'>{item.name}</h3>
                 <div className='flex flex-row items-center justify-between'>
                     <span className="text-xs text-gray-400">{renderSizeFile(item.size)}</span>
-                    {progress > 0 && progress <= 100 ? <span className="text-xs text-gray-400">{progress === 100 ? "Đã tải" : `Đang tải... ${progress}%`}</span> : null}
                 </div>
             </div>
             <div className='ml-2 flex items-center justify-center opacity-0 group-hover:opacity-1'>

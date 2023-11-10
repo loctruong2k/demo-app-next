@@ -24,14 +24,17 @@ const sendMessage = (socket: Socket, queryClient: QueryClient) => {
             parentMessageInfo: dataMessage.parentMessageInfo
         }
         const arrayMessage: ItemMessageData[] = queryClient.getQueryData([queryKeys.group_message.listMessage, messageData.groupId]) as ItemMessageData[]
-        const newData = arrayMessage.map(i => {
-            if (i._id === "new") {
-                return messageData
-            }
-            return i
-        })
-        queryClient.setQueryData([queryKeys.group_message.listMessage, messageData.groupId], newData)
+        if (Array.isArray(arrayMessage) && arrayMessage.length) {
+            const newData = arrayMessage.map(i => {
+                if (i._id === "new") {
+                    return messageData
+                }
+                return i
+            })
+            queryClient.setQueryData([queryKeys.group_message.listMessage, messageData.groupId], newData)
+        }
         const listGroup: ListGroupType[] = queryClient.getQueryData([queryKeys.listGroup]) as ListGroupType[]
+        if (!Array.isArray(arrayMessage) || !arrayMessage.length) return
         const newMessage = listGroup.map((item) => {
             if (item.groups._id === messageData.groupId) {
                 return {

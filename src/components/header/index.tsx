@@ -36,11 +36,8 @@ function HeaderPage() {
                         <Link href={PATH.home}>
                             <Image quality={75} className="rounded-full" src={"/assets/logo.jpg"} alt='' width={40} height={40} />
                         </Link>
-                        <div className='relative group w-9 h-9 cursor-pointer flex items-center justify-center ml-2 rounded-full hover:bg-slate-300'>
+                        <div className='w-9 h-9 cursor-pointer flex items-center justify-center ml-2 rounded-full hover:bg-slate-300'>
                             <i className="fa-solid fa-bars"></i>
-                            <div className="absolute text-center top-12 min-w-max bg-slate-300 text-slate-700 text-sm px-2 py-1 rounded mt-2 opacity-0 group-hover:opacity-100 transition duration-300">
-                                Thiết lập
-                            </div>
                         </div>
                     </div>
                     <div className='flex'>

@@ -27,7 +27,7 @@ export default function RootLayout({
                     referrerPolicy="no-referrer"
                 />
             </head>
-            <body className={`${inter.className} w-screen h-screen min-w-[325px] fixed top-0 left-0 md:relative`}>
+            <body className={`${inter.className} w-screen h-screen min-w-[325px] fixed top-0 left-0 md:relative overflow-hidden`}>
                 <AuthRequest>
                     {children}
                     <div id={"box-message"} className="fixed z-[999999] top-[56px] right-4"></div>

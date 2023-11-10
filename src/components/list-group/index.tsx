@@ -8,6 +8,7 @@ import Image from 'next/image'
 import TimeLine from '../time-line'
 import Loading from '@/app/loading'
 import { useRef, useState } from 'react'
+import LottieAnimation from './lottie-animation'
 
 type Props = {
     currentItem?: ListGroupType
@@ -38,7 +39,7 @@ function ListGroup({ currentItem, setCurrentItem }: Props) {
     }
     const dataFilter = Array.isArray(data) ? keyword ? data?.filter(i => i.groups.name.includes(keyword)) : data : []
     return (
-        <div className='flex-[1] border-r h-full min-w-[200px] shadow'>
+        <div className={`${currentItem ? "hidden" : "flex"} md:flex overflow-hidden flex-[1] flex-col border-r h-full shadow`}>
             <div className='border-t p-2'>
                 <input ref={inputRef} onKeyDown={onkeydown} placeholder='Tìm kiếm' className="bg-gray-100 w-full h-8 rounded-2xl pl-3 outline-none text-sm" />
             </div>
@@ -53,7 +54,8 @@ function ListGroup({ currentItem, setCurrentItem }: Props) {
                                 onClick={() => setCurrentItem(item)}
                                 className={`flex items-center px-2 py-2 cursor-pointer border-b ${isActive ? "bg-gray-100" : ""}`} key={index}>
                                 <div className="">
-                                    <Image src={`${DB_HOST}/${item.groupSettings.logo}`} alt='' width={40} height={40} className="object-contain border rounded-full" />
+                                    <LottieAnimation url="/assets/message/message.json" />
+                                    {/* <Image src={`${DB_HOST}/${item.groupSettings.logo}`} alt='' width={40} height={40} className="object-contain border rounded-full" /> */}
                                 </div>
                                 <div className="flex-1 ml-2 overflow-hidden">
                                     <div className='flex items-center justify-between'>
