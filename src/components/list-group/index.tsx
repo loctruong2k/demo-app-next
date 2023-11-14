@@ -1,25 +1,22 @@
 "use client"
-import { DB_HOST } from '@/src/api/config'
+import Loading from '@/app/loading'
 import { InfoData } from '@/src/api/info/type'
 import { queryKeys } from '@/src/constants/query-key'
 import { ListGroupType } from '@/src/types/groupType'
-import { useQuery } from '@tanstack/react-query'
-import Image from 'next/image'
-import TimeLine from '../time-line'
-import Loading from '@/app/loading'
+import { useQuery, useQueryClient } from '@tanstack/react-query'
 import { useRef, useState } from 'react'
+import TimeLine from '../time-line'
 import LottieAnimation from './lottie-animation'
 
-type Props = {
-    currentItem?: ListGroupType
-    setCurrentItem: (item: ListGroupType) => void
-}
-
-function ListGroup({ currentItem, setCurrentItem }: Props) {
+function ListGroup() {
     const inputRef = useRef<HTMLInputElement>(null)
     const timer = useRef<NodeJS.Timeout | undefined>(undefined);
     const [keyword, setKeyword] = useState<string>("")
+    const queryClient = useQueryClient()
 
+    const { data: ItemGroupType } = useQuery<ListGroupType>({
+        queryKey: [queryKeys.group_message.currentItemGroup]
+    })
     const { data, isLoading } = useQuery<ListGroupType[]>({
         queryKey: [queryKeys.listGroup]
     })
@@ -39,7 +36,7 @@ function ListGroup({ currentItem, setCurrentItem }: Props) {
     }
     const dataFilter = Array.isArray(data) ? keyword ? data?.filter(i => i.groups.name.includes(keyword)) : data : []
     return (
-        <div className={`${currentItem ? "hidden" : "flex"} md:flex overflow-hidden flex-[1] flex-col border-r h-full shadow`}>
+        <div className={`${ItemGroupType ? "hidden" : "flex"} md:flex overflow-hidden flex-[1] flex-col border-r h-full shadow`}>
             <div className='border-t p-2'>
                 <input ref={inputRef} onKeyDown={onkeydown} placeholder='Tìm kiếm' className="bg-gray-100 w-full h-8 rounded-2xl pl-3 outline-none text-sm" />
             </div>
@@ -48,10 +45,12 @@ function ListGroup({ currentItem, setCurrentItem }: Props) {
                 {dataFilter.length ?
                     dataFilter.map((item, index) => {
                         const isCurrentMessage = item.chatMessages.accountId === profile?.accountID
-                        const isActive = item.groups._id === currentItem?.groups._id
+                        const isActive = item.groups._id === ItemGroupType?.groups._id
                         return (
                             <div
-                                onClick={() => setCurrentItem(item)}
+                                onClick={() => {
+                                    queryClient.setQueryData([queryKeys.group_message.currentItemGroup], item)
+                                }}
                                 className={`flex items-center px-2 py-2 cursor-pointer border-b ${isActive ? "bg-gray-100" : ""}`} key={index}>
                                 <div className="">
                                     <LottieAnimation url="/assets/message/message.json" />

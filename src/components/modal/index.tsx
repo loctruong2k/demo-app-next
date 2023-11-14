@@ -10,7 +10,7 @@ type Props = {
 
 const Modal = (props: Props) => {
     return (
-        <div className={`fixed modal-container ${!props.open && "hidden"} z-50 w-screen h-screen flex items-center justify-center transition-opacity`}>
+        <div className={`fixed modal-container ${!props.open && "hidden"} z-50 top-0 left-0 w-screen h-screen flex items-center justify-center transition-opacity`}>
             <div className={`bg-white ${props.className} z-40`}>
                 {props.children}
             </div>

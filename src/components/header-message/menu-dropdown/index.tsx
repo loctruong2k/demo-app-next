@@ -1,9 +1,11 @@
 import React, { Fragment, useState } from 'react'
-import { ListMenuHeader } from './list-data'
+import { ListMenuHeader, MenuDataChatsMessageType } from './list-data'
 
-type Props = {}
+type Props = {
+    onClickItem: (data: MenuDataChatsMessageType) => void
+}
 
-function MenuDropDown({ }: Props) {
+function MenuDropDown({ onClickItem }: Props) {
     const [open, setOpen] = useState<boolean>(false)
     return (
         <Fragment>
@@ -15,6 +17,10 @@ function MenuDropDown({ }: Props) {
                     {ListMenuHeader.map((item, index) => {
                         return (
                             <li
+                                onClick={() => {
+                                    onClickItem(item)
+                                    setOpen(false)
+                                }}
                                 className={`flex items-center px-4 py-1 cursor-pointer hover:bg-gray-100 ${item.className}`}
                                 key={index}>
                                 {item.icon}

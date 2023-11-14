@@ -17,7 +17,7 @@ function RenderImage({ images, isCurrent }: Props) {
     const background = isCurrent ? "bg-blue-100" : "bg-white"
     
     return (
-        <div className={`grid ${colCount} gap-2 max-w-[60vw]`}>
+        <div className={`grid ${colCount} gap-2 max-w-[60vw] 2xl:max-w-[40vw]`}>
             {images.length > 0 ? images.map((item, index) => {
                 return <div key={index} className={`cursor-pointer ${background} ${index === 0 && "col-span-1"} rounded-lg border shadow`}>
                     <PhotoView src={`${DB_HOST}/${item.url}`}>

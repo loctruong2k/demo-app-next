@@ -8,6 +8,9 @@ export const queryKeys = {
     listGroup: "LIST_GROUP",
     message: "MESSAGE_LIST",
     group_message: {
-        listMessage: "listMessage"
+        listMessage: "listMessage",
+        currentItemGroup: "current_item_group",
+        listMember: "listMember",
+        listImage: "listImage"
     }
 }

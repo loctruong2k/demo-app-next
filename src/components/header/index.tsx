@@ -13,8 +13,11 @@ import ModalSearchUser from '../modal-create-friend'
 import AuthMenu from '../auth-menu'
 import { useMessageSocket } from '@/src/hooks/message/useMessage'
 import { useNotifications } from '@/src/hooks/notification'
+import { useRouter } from 'next/navigation'
+import { useGroupDetail } from '@/src/hooks/group'
 
 function HeaderPage() {
+    const router = useRouter()
     const [isSearch, setSearch] = useState(false)
     const ref = useRef<HTMLDivElement>(null)
     const { data: token } = useQuery<string>({
@@ -27,10 +30,11 @@ function HeaderPage() {
     })
     useMessageSocket()
     useNotifications()
+    useGroupDetail()
 
     return (
         <Fragment>
-            <div id={'header-app'} ref={ref} className='shadow-md bg-white z-[999] fixed top-0 w-screen'>
+            <div id={'header-app'} ref={ref} className='shadow-md bg-white z-[9] fixed top-0 w-screen'>
                 <div className='flex py-2 px-4 bg-white xl:max-w-[1366px] m-auto'>
                     <div className='flex items-center flex-1'>
                         <Link href={PATH.home}>
@@ -43,6 +47,11 @@ function HeaderPage() {
                     <div className='flex'>
                         <div onClick={() => setSearch(true)} className='w-9 h-9 cursor-pointer flex items-center justify-center bg-slate-100 ml-2 rounded-full hover:bg-slate-300'>
                             <i className="fa-solid fa-plus"></i>
+                        </div>
+                        <div
+                            onClick={() => router.push(PATH.message)}
+                            className='w-9 h-9 cursor-pointer flex items-center justify-center bg-slate-100 ml-2 rounded-full hover:bg-slate-300'>
+                            <i className="fa-regular fa-message"></i>
                         </div>
                         <div className='w-9 h-9 cursor-pointer flex items-center justify-center bg-slate-100 ml-2 rounded-full hover:bg-slate-300'>
                             <i className="fa-regular fa-bell"></i>

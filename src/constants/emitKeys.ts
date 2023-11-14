@@ -7,6 +7,8 @@ export const emitKeys = {
         idAccount: "/group/id-account", // kiểm tra xem có từng chats riêng với 1 id người dùng hay không
         infoGroup: "/group/info-group", // lấy thông tin của một group
         infoAccount: "/group/info-account", // lấy thông tin người nhắn
+        listMember: "/group/list-member", // lấy danh sách thành viên tham gia nhóm chat
+        listImages: "/group/list-images", // lấy danh sách hình ảnh của group
     },
     message: {
         send: "/message/send", // gửi tin nhắn

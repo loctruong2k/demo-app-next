@@ -163,7 +163,7 @@ function InputMessage({ }: Props) {
   return (
     <div className={`border-t ${files.length ? "pt-1" : ""} w-full`}>
       {parentItem ?
-        <div className="flex flex-row items-center px-20 bg-gray-50 rounded-xl py-2">
+        <div className="flex flex-row items-center px-2 md:px-20 bg-gray-100 rounded-xl py-2">
           <RenderAvatar url={parentItem.info.avatar} />
           <div className="ml-4 flex-1">
             <h2 className="text-md font-bold text-gray-600">Trả lời: {parentItem.info.fullName}</h2>
